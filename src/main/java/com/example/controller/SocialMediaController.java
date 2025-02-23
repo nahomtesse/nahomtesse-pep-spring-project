@@ -21,6 +21,9 @@ public class SocialMediaController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private MessageService messageService;
+
     @PostMapping("/register")
     private ResponseEntity<Account> registration(@RequestBody Account account) {
         Account existingAccount = accountService.getAccountByUsername(account.getUsername());
@@ -50,6 +53,21 @@ public class SocialMediaController {
 
     }
 
+    @PostMapping("/messages")
+    private ResponseEntity<Message> messaging(@RequestBody Message message) {
+        Account realAccount = accountService.getAccountById(message.getPostedBy());
 
+        if (realAccount != null) {
+            Message messageCreated = messageService.messaging(message);
+            if (messageCreated == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(messageCreated, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
 
 }

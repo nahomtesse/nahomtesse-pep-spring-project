@@ -28,6 +28,10 @@ public class AccountService {
         return accountRepository.findByUsername(username);
     }
 
+    public Account getAccountById(int id) {
+        return accountRepository.findById(id);
+    }
+
     public Account logginIn(Account loginAccount) {
         Account account = accountRepository.findByUsername(loginAccount.getUsername());
 
