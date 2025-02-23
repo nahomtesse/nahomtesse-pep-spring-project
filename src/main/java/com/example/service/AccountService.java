@@ -1,17 +1,14 @@
 package com.example.service;
 
-
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.Account;
 import com.example.repository.AccountRepository;
 
+
 @Service
 public class AccountService {
-
     @Autowired
     private AccountRepository accountRepository;
 
@@ -19,16 +16,24 @@ public class AccountService {
        String pass = account.getPassword();
        int passLength = pass.length();
        
-       if (account.getUsername() == null || account.getUsername() == "" || passLength < 4 ) {
-            return null;
-        }
-
-        Optional<Account> existingAccount = accountRepository.findByUsername(account.getUsername());
-        if (existingAccount.isPresent()) {
+        if (account.getUsername() == " " || account.getUsername() == "" || passLength < 4 ) {
             return null;
         }
 
         return accountRepository.save(account);
 
+    }
+
+    public Account getAccountByUsername(String username) {
+        return accountRepository.findByUsername(username);
+    }
+
+    public Account logginIn(Account loginAccount) {
+        Account account = accountRepository.findByUsername(loginAccount.getUsername());
+
+        if (account != null && account.getPassword().equals(loginAccount.getPassword())) {
+            return accountRepository.save(account);
+        }
+        return null;
     }
 }

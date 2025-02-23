@@ -1,11 +1,9 @@
 package com.example.repository;
 
 import com.example.entity.Account;
-import java.util.Optional;
 
-public interface AccountRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    Account save(Account account);
-
-    Optional<Account> findByUsername(String username);
+public interface AccountRepository extends JpaRepository<Account, Integer> {
+    Account findByUsername(String username);
 }
