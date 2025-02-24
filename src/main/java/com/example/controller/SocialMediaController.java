@@ -70,4 +70,33 @@ public class SocialMediaController {
 
     }
 
+    @PatchMapping("/messages/{messageId}")
+    private ResponseEntity<?> updateMessageById(@PathVariable Integer messageId, @RequestBody Message newMessageText) {
+        Message messagetoUpdate = messageService.getMessageById(messageId);
+
+        if (messagetoUpdate == null) {
+           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        
+        messagetoUpdate.setMessageText(newMessageText.getMessageText());
+
+        Message updatedMessage = messageService.updateMessageById(messageId, messagetoUpdate);
+
+        if (updatedMessage == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+
+        return new ResponseEntity<>(1, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/messages")
+    private ResponseEntity<List<Message>> allMessages() {
+        List<Message> messages = messageService.allMessages();
+        
+        
+        return ResponseEntity.ok(messages);
+    }
+
 }
