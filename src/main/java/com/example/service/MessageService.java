@@ -49,4 +49,8 @@ public class MessageService {
         messageRepository.delete(message);
     }
 
+    public List<Message> getAllMessageForUser(int accountId) {
+        return messageRepository.findByPostedBy(accountId);
+    }
+
 }

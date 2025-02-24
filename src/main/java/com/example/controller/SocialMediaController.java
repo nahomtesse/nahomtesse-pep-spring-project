@@ -123,4 +123,12 @@ public class SocialMediaController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
+    @GetMapping("/accounts/{accountId}/messages")
+    private ResponseEntity<List<Message>> getAllMessageForUser(@PathVariable Integer accountId) {
+        List<Message> messages = messageService.getAllMessageForUser(accountId);
+
+        return ResponseEntity.ok(messages);
+    }
+
+
 }
