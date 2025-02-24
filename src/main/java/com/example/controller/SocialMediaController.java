@@ -99,4 +99,28 @@ public class SocialMediaController {
         return ResponseEntity.ok(messages);
     }
 
+    @DeleteMapping("/messages/{messageId}")
+    private ResponseEntity<?> deleteMessageById(@PathVariable Integer messageId) {
+        Message messageToDelete = messageService.getMessageById(messageId);
+
+        if (messageToDelete == null) {
+            return new ResponseEntity<>("", HttpStatus.OK);
+        }
+ 
+        messageService.deleteMessageById(messageId, messageToDelete);
+
+        return new ResponseEntity<>(1, HttpStatus.OK);
+    }
+
+    @GetMapping("/messages/{messageId}")
+    private ResponseEntity<?> getMessageById(@PathVariable Integer messageId) {
+        Message message = messageService.getMessageById(messageId);
+
+        if (message == null) {
+            return new ResponseEntity<>("", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
 }

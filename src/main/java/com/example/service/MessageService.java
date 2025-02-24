@@ -34,11 +34,19 @@ public class MessageService {
     }
 
     public Message getMessageById(int id) {
+        if (messageRepository.findById(id) == null) {
+            return null;
+        }
+
         return messageRepository.findById(id);
     }
 
     public List<Message> allMessages() {
         return messageRepository.findAll();
+    }
+
+    public void deleteMessageById(int id, Message message) {
+        messageRepository.delete(message);
     }
 
 }
